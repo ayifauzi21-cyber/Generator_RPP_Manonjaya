@@ -1,493 +1,424 @@
 <!DOCTYPE html>
 <html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Generator RPP Deep Learning - SMPN 1 Manonjaya</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
     <script>
-        window.MathJax = {
-            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$']] },
-            svg: { fontCache: 'global' }
-        };
+      window.MathJax = {
+        tex: {
+          inlineMath: [
+            ["$", "$"],
+            ["\\(", "\\)"],
+          ],
+          displayMath: [["$$", "$$"]],
+        },
+        svg: { fontCache: "global" },
+      };
     </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
-        
-        body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            background-color: #f1f5f9; 
+      @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap");
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        background-color: #f1f5f9;
+      }
+      .glass-card {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        border: 1px solid #e2e8f0;
+      }
+      .input-label {
+        display: block;
+        font-size: 0.7rem;
+        font-weight: 800;
+        color: #64748b;
+        text-transform: uppercase;
+        margin-bottom: 4px;
+      }
+      .custom-input {
+        width: 100%;
+        padding: 10px 14px;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 10px;
+        font-size: 0.9rem;
+        transition: all 0.2s;
+      }
+      .custom-input:focus {
+        border-color: #2563eb;
+        outline: none;
+        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+      }
+      .p3-checkbox {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-size: 0.85rem;
+      }
+      .p3-checkbox.active {
+        border-color: #2563eb;
+        background-color: #eff6ff;
+      }
+      /* Container Output Utama */
+      #rppOutput {
+        background: white;
+        color: black;
+        line-height: 1.4;
+        font-size: 11pt;
+        font-family: Arial, sans-serif;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      /* Memastikan seluruh tabel dalam output simetris & lurus tanpa garis menabrak teks */
+      #rppOutput table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+        border-spacing: 0 !important;
+        margin-bottom: 15px;
+        table-layout: auto;
+        border: 1px solid black !important; /* Border luar utama */
+      }
+      #rppOutput th,
+      #rppOutput td {
+        border: 1px solid black !important;
+        padding: 8px 12px; /* Padding ditambah sedikit agar teks tidak tertabrak garis */
+        vertical-align: top;
+        word-wrap: break-word;
+        box-sizing: border-box;
+      }
+      .section-bg {
+        background-color: #f2f2f2;
+        font-weight: bold;
+      }
+      .sig-container {
+        width: 100%;
+        margin-top: 30px;
+        page-break-inside: avoid;
+      }
+      .sig-table {
+        width: 100% !important;
+        border: none !important;
+      }
+      .sig-table td {
+        border: none !important;
+        text-align: center !important;
+        width: 50%;
+        padding: 5px !important;
+      }
+      @media print {
+        .no-print {
+          display: none !important;
         }
-
-        .glass-card {
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            border: 1px solid #e2e8f0;
+        body {
+          background: white;
+          padding: 0;
         }
-
-        .input-label {
-            display: block;
-            font-size: 0.7rem;
-            font-weight: 800;
-            color: #64748b;
-            text-transform: uppercase;
-            margin-bottom: 4px;
+        #rppOutput {
+          padding: 0 !important;
+          border: none !important;
         }
-
-        .custom-input {
-            width: 100%;
-            padding: 10px 14px;
-            border: 1.5px solid #e2e8f0;
-            border-radius: 10px;
-            font-size: 0.9rem;
-            transition: all 0.2s;
+        @page {
+          margin: 1.5cm;
         }
-
-        .custom-input:focus {
-            border-color: #2563eb;
-            outline: none;
-            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
-        }
-
-        .p3-checkbox {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px;
-            border: 1.5px solid #e2e8f0;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 0.85rem;
-        }
-
-        .p3-checkbox.active {
-            border-color: #2563eb;
-            background-color: #eff6ff;
-        }
-
-        #rppOutput { 
-            background: white; 
-            color: black; 
-            line-height: 1.4;
-            font-size: 11pt;
-            font-family: Arial, sans-serif;
-        }
-
-        #rppOutput h1, #rppOutput h2, #rppOutput h3 {
-            text-align: center;
-            margin: 5px 0;
-            text-transform: uppercase;
-        }
-
-        #rppOutput table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 15px;
-            table-layout: fixed; 
-        }
-
-        #rppOutput th, #rppOutput td {
-            border: 1px solid black;
-            padding: 8px 10px;
-            vertical-align: top;
-            word-wrap: break-word;
-        }
-
-        .section-bg {
-            background-color: #f2f2f2;
-            font-weight: bold;
-        }
-
-        .sig-container {
-            width: 100%;
-            margin-top: 30px;
-            page-break-inside: avoid;
-        }
-
-        .sig-table {
-            width: 100% !important;
-            border: none !important;
-        }
-
-        .sig-table td {
-            border: none !important;
-            text-align: center !important;
-            width: 50%;
-            padding: 5px !important;
-        }
-
-        @media print {
-            .no-print { display: none !important; }
-            body { background: white; padding: 0; }
-            #rppOutput { padding: 0 !important; border: none !important; }
-            @page { margin: 1.5cm; }
-        }
-
-        .help-link {
-            font-size: 0.75rem;
-            color: #2563eb;
-            text-decoration: underline;
-            font-weight: 600;
-        }
+      }
+      .help-link {
+        font-size: 0.75rem;
+        color: #2563eb;
+        text-decoration: underline;
+        font-weight: 600;
+      }
     </style>
-</head>
-<body class="p-4 md:p-8">
-
+  </head>
+  <body class="p-4 md:p-8">
     <div class="max-w-6xl mx-auto">
-        <div class="mb-8 no-print flex items-center justify-between">
+      <div class="mb-8 no-print flex items-center justify-between">
+        <div>
+          <h1 class="text-2xl font-extrabold text-slate-900">Generator Modul Ajar <span class="text-blue-600">Deep Learning</span></h1>
+          <p class="text-slate-500 text-sm italic">Sesuai Format Simetris Standar Manonjaya</p>
+        </div>
+        <i class="fas fa-file-signature text-4xl text-slate-200"></i>
+      </div>
+      <div id="inputForm" class="space-y-6 no-print">
+        <div class="glass-card p-6 border-l-4 border-blue-600">
+          <div class="flex justify-between items-center mb-2">
+            <label class="input-label mb-0">Gemini API Key</label> <a href="https://aistudio.google.com/app/apikey" target="_blank" class="help-link"> <i class="fas fa-external-link-alt mr-1"></i> Dapatkan API Key Gratis </a>
+          </div>
+          <input type="password" id="apiKey" class="custom-input md:w-1/2" placeholder="Tempelkan API Key Anda di sini..." />
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="glass-card p-6 space-y-4">
+            <h3 class="font-bold border-b pb-2 mb-2 text-blue-800 flex items-center gap-2"><i class="fas fa-school"></i> Identitas Sekolah & Guru</h3>
+            <div><label class="input-label">Nama Sekolah</label> <input type="text" id="sekolah" class="custom-input" value="SMPN 1 Manonjaya" placeholder="Contoh: SMPN 1 Manonjaya" /></div>
+            <div class="grid grid-cols-2 gap-2">
+              <div><label class="input-label">Tahun Pelajaran</label> <input type="text" id="tahun" class="custom-input" value="2025/2026" placeholder="Contoh: 2025/2026" /></div>
+              <div>
+                <label class="input-label">Semester</label>
+                <select id="semester" class="custom-input">
+                  <option value="Ganjil">Ganjil</option>
+                  <option value="Genap" selected>Genap</option>
+                </select>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div><label class="input-label">Nama Guru</label> <input type="text" id="guru" class="custom-input" value="" placeholder="Nama Lengkap & Gelar" /></div>
+              <div><label class="input-label">NIP Guru</label> <input type="text" id="nipGuru" class="custom-input" value="" placeholder="Masukkan NIP Guru" /></div>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div><label class="input-label">Kepala Sekolah</label> <input type="text" id="kepala" class="custom-input" value="" placeholder="Nama Kepala Sekolah" /></div>
+              <div><label class="input-label">NIP Kepala</label> <input type="text" id="nipKepala" class="custom-input" value="" placeholder="Masukkan NIP Kepala" /></div>
+            </div>
+          </div>
+          <div class="glass-card p-6 space-y-4">
+            <h3 class="font-bold border-b pb-2 mb-2 text-emerald-800 flex items-center gap-2"><i class="fas fa-book-open"></i> Data Pembelajaran</h3>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="input-label">Mata Pelajaran</label>
+                <select id="mapel" class="custom-input">
+                  <option value="Pendidikan Agama dan Budi Pekerti">Agama & Budi Pekerti</option>
+                  <option value="Pendidikan Pancasila">Pendidikan Pancasila</option>
+                  <option value="Bahasa Indonesia">Bahasa Indonesia</option>
+                  <option value="Matematika" selected>Matematika</option>
+                  <option value="IPA (Ilmu Pengetahuan Alam)">IPA</option>
+                  <option value="IPS (Ilmu Pengetahuan Sosial)">IPS</option>
+                  <option value="Bahasa Inggris">Bahasa Inggris</option>
+                  <option value="PJOK">PJOK</option>
+                  <option value="Informatika">Informatika</option>
+                  <option value="Seni dan Prakarya">Seni & Prakarya</option>
+                  <option value="Bahasa Sunda">Bahasa Sunda</option>
+                  <option value="Bimbingan Konseling (BK)">Bimbingan Konseling</option>
+                </select>
+              </div>
+              <div>
+                <label class="input-label">Kelas</label>
+                <select id="kelas" class="custom-input">
+                  <option value="VII (Tujuh)">Kelas 7</option>
+                  <option value="VIII (Delapan)" selected>Kelas 8</option>
+                  <option value="IX (Sembilan)">Kelas 9</option>
+                </select>
+              </div>
+            </div>
+            <div><label class="input-label">Materi Pokok / Bab</label> <input type="text" id="materi" class="custom-input" value="" placeholder="Contoh: Sistem Persamaan Linear" /></div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="input-label">Alokasi Waktu</label>
+                <select id="alokasi" class="custom-input">
+                  <option value="2 JP (80 Menit)" selected>2 JP (80 Menit)</option>
+                  <option value="3 JP (120 Menit)">3 JP (120 Menit)</option>
+                  <option value="4 JP (160 Menit)">4 JP (160 Menit)</option>
+                </select>
+              </div>
+              <div>
+                <label class="input-label">Model Pembelajaran</label>
+                <select id="model" class="custom-input">
+                  <option value="Problem Based Learning (PBL)" selected>PBL</option>
+                  <option value="Project Based Learning (PjBL)">PjBL</option>
+                  <option value="Discovery Learning">Discovery Learning</option>
+                  <option value="Inquiry Learning">Inquiry Learning</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="glass-card p-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
             <div>
-                <h1 class="text-2xl font-extrabold text-slate-900">Generator Modul Ajar <span class="text-blue-600">Deep Learning</span></h1>
-                <p class="text-slate-500 text-sm italic">Sesuai Format Simetris Standar Manonjaya</p>
+              <label class="input-label">
+                <a href="https://drive.google.com/file/d/1KjZvUnfoYlIckvXWkzHd9vV_nvDMLW1c/view?usp=sharing" target="_blank" class="hover:underline text-blue-700"> Capaian Pembelajaran (CP) </a>
+              </label>
+              <textarea id="cp" rows="3" class="custom-input text-xs"></textarea>
             </div>
-            <i class="fas fa-file-signature text-4xl text-slate-200"></i>
+            <div>
+              <label class="input-label">Tujuan Pembelajaran (TP)</label>
+              <textarea id="tp" rows="3" class="custom-input text-xs"></textarea>
+            </div>
+          </div>
+          <div class="border-t pt-4">
+            <label class="input-label">Profil Pelajar Pancasila (P3)</label>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mt-2">
+              <label class="p3-checkbox active" onclick="this.classList.toggle('active')"><input type="checkbox" name="p3" value="Beriman, Bertakwa kepada Tuhan YME, dan Berakhlak Mulia" /><span>Beriman & Bertakwa</span></label>
+              <label class="p3-checkbox active" onclick="this.classList.toggle('active')"><input type="checkbox" name="p3" value="Mandiri" checked /><span>Mandiri</span></label>
+              <label class="p3-checkbox active" onclick="this.classList.toggle('active')"><input type="checkbox" name="p3" value="Bernalar Kritis" checked /><span>Bernalar Kritis</span></label>
+              <label class="p3-checkbox active" onclick="this.classList.toggle('active')"><input type="checkbox" name="p3" value="Gotong Royong" checked /><span>Gotong Royong</span></label>
+              <label class="p3-checkbox active" onclick="this.classList.toggle('active')"><input type="checkbox" name="p3" value="Kreatif" /><span>Kreatif</span></label>
+              <label class="p3-checkbox" onclick="this.classList.toggle('active')"><input type="checkbox" name="p3" value="Berkebinekaan Global" /><span>Berkebinekaan Global</span></label>
+            </div>
+          </div>
+          <div class="mt-6 flex items-center gap-2">
+            <input type="checkbox" id="genLKPD" checked class="w-5 h-5 accent-blue-600" /> <label for="genLKPD" class="text-sm font-bold text-slate-700">Sertakan Lampiran LKPD Profesional</label>
+          </div>
         </div>
-
-        <div id="inputForm" class="space-y-6 no-print">
-            <div class="glass-card p-6 border-l-4 border-blue-600">
-                <div class="flex justify-between items-center mb-2">
-                    <label class="input-label mb-0">Gemini API Key</label>
-                    <a href="https://aistudio.google.com/app/apikey" target="_blank" class="help-link">
-                        <i class="fas fa-external-link-alt mr-1"></i> Dapatkan API Key Gratis
-                    </a>
-                </div>
-                <input type="password" id="apiKey" class="custom-input md:w-1/2" placeholder="Tempelkan API Key Anda di sini...">
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="glass-card p-6 space-y-4">
-                    <h3 class="font-bold border-b pb-2 mb-2 text-blue-800 flex items-center gap-2">
-                        <i class="fas fa-school"></i> Identitas Sekolah & Guru
-                    </h3>
-                    <div>
-                        <label class="input-label">Nama Sekolah</label>
-                        <input type="text" id="sekolah" class="custom-input" value="SMPN 1 Manonjaya" placeholder="Contoh: SMPN 1 Manonjaya">
-                    </div>
-                    <div class="grid grid-cols-2 gap-2">
-                        <div>
-                            <label class="input-label">Tahun Pelajaran</label>
-                            <input type="text" id="tahun" class="custom-input" value="2025/2026" placeholder="Contoh: 2025/2026">
-                        </div>
-                        <div>
-                            <label class="input-label">Semester</label>
-                            <select id="semester" class="custom-input">
-                                <option value="Ganjil">Ganjil</option>
-                                <option value="Genap" selected>Genap</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-2 gap-2">
-                        <div>
-                            <label class="input-label">Nama Guru</label>
-                            <input type="text" id="guru" class="custom-input" value="Ali Mahmud, S.Pd., M.Pd." placeholder="Nama Lengkap & Gelar">
-                        </div>
-                        <div>
-                            <label class="input-label">NIP Guru</label>
-                            <input type="text" id="nipGuru" class="custom-input" value="197001021994121001" placeholder="Masukkan NIP Guru">
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-2 gap-2">
-                        <div>
-                            <label class="input-label">Kepala Sekolah</label>
-                            <input type="text" id="kepala" class="custom-input" value="Asep Nurulloh, S.Pd., MM." placeholder="Nama Kepala Sekolah">
-                        </div>
-                        <div>
-                            <label class="input-label">NIP Kepala</label>
-                            <input type="text" id="nipKepala" class="custom-input" value="197801122008011003" placeholder="Masukkan NIP Kepala">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="glass-card p-6 space-y-4">
-                    <h3 class="font-bold border-b pb-2 mb-2 text-emerald-800 flex items-center gap-2">
-                        <i class="fas fa-book-open"></i> Data Pembelajaran
-                    </h3>
-                    <div class="grid grid-cols-2 gap-2">
-                        <div>
-                            <label class="input-label">Mata Pelajaran</label>
-                            <select id="mapel" class="custom-input">
-                                <option value="Pendidikan Agama dan Budi Pekerti">Agama & Budi Pekerti</option>
-                                <option value="Pendidikan Pancasila">Pendidikan Pancasila</option>
-                                <option value="Bahasa Indonesia">Bahasa Indonesia</option>
-                                <option value="Matematika" selected>Matematika</option>
-                                <option value="IPA (Ilmu Pengetahuan Alam)">IPA</option>
-                                <option value="IPS (Ilmu Pengetahuan Sosial)">IPS</option>
-                                <option value="Bahasa Inggris">Bahasa Inggris</option>
-                                <option value="PJOK">PJOK</option>
-                                <option value="Informatika">Informatika</option>
-                                <option value="Seni dan Prakarya">Seni & Prakarya</option>
-                                <option value="Bahasa Sunda">Bahasa Sunda</option>
-                                <option value="Bimbingan Konseling (BK)">Bimbingan Konseling</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="input-label">Kelas</label>
-                            <select id="kelas" class="custom-input">
-                                <option value="VII (Tujuh)">Kelas 7</option>
-                                <option value="VIII (Delapan)" selected>Kelas 8</option>
-                                <option value="IX (Sembilan)">Kelas 9</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div>
-                        <label class="input-label">Materi Pokok / Bab</label>
-                        <input type="text" id="materi" class="custom-input" value="SPLDV Metode Campuran" placeholder="Contoh: Sistem Persamaan Linear">
-                    </div>
-                    <div class="grid grid-cols-2 gap-2">
-                        <div>
-                            <label class="input-label">Alokasi Waktu</label>
-                            <select id="alokasi" class="custom-input">
-                                <option value="2 JP (80 Menit)" selected>2 JP (80 Menit)</option>
-                                <option value="3 JP (120 Menit)">3 JP (120 Menit)</option>
-                                <option value="4 JP (160 Menit)">4 JP (160 Menit)</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="input-label">Model Pembelajaran</label>
-                            <select id="model" class="custom-input">
-                                <option value="Problem Based Learning (PBL)" selected>PBL</option>
-                                <option value="Project Based Learning (PjBL)">PjBL</option>
-                                <option value="Discovery Learning">Discovery Learning</option>
-                                <option value="Inquiry Learning">Inquiry Learning</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="glass-card p-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                    <div>
-                        <label class="input-label">Capaian Pembelajaran (CP)</label>
-                        <textarea id="cp" rows="3" class="custom-input text-xs">Di akhir fase D, peserta didik dapat menyelesaikan masalah kontekstual yang berkaitan dengan SPLDV menggunakan berbagai metode.</textarea>
-                    </div>
-                    <div>
-                        <label class="input-label">Tujuan Pembelajaran (TP)</label>
-                        <textarea id="tp" rows="3" class="custom-input text-xs">Peserta didik mampu memecahkan masalah kontekstual SPLDV melalui metode campuran dengan kolaborasi kelompok yang efektif.</textarea>
-                    </div>
-                </div>
-
-                <div class="border-t pt-4">
-                    <label class="input-label">Profil Pelajar Pancasila (P3)</label>
-                    <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mt-2">
-                        <label class="p3-checkbox active" onclick="this.classList.toggle('active')"><input type="checkbox" name="p3" value="Beriman, Bertakwa kepada Tuhan YME, dan Berakhlak Mulia"><span>Beriman & Bertakwa</span></label>
-                        <label class="p3-checkbox active" onclick="this.classList.toggle('active')"><input type="checkbox" name="p3" value="Mandiri" checked><span>Mandiri</span></label>
-                        <label class="p3-checkbox active" onclick="this.classList.toggle('active')"><input type="checkbox" name="p3" value="Bernalar Kritis" checked><span>Bernalar Kritis</span></label>
-                        <label class="p3-checkbox active" onclick="this.classList.toggle('active')"><input type="checkbox" name="p3" value="Gotong Royong" checked><span>Gotong Royong</span></label>
-                        <label class="p3-checkbox active" onclick="this.classList.toggle('active')"><input type="checkbox" name="p3" value="Kreatif"><span>Kreatif</span></label>
-                        <label class="p3-checkbox" onclick="this.classList.toggle('active')"><input type="checkbox" name="p3" value="Berkebinekaan Global"><span>Berkebinekaan Global</span></label>
-                    </div>
-                </div>
-
-                <div class="mt-6 flex items-center gap-2">
-                    <input type="checkbox" id="genLKPD" checked class="w-5 h-5 accent-blue-600">
-                    <label for="genLKPD" class="text-sm font-bold text-slate-700">Sertakan Lampiran LKPD Profesional</label>
-                </div>
-            </div>
-
-            <button id="generateBtn" onclick="runGenerator()" class="w-full bg-blue-700 hover:bg-blue-800 text-white font-extrabold py-4 rounded-xl shadow-lg transition-all flex justify-center items-center gap-3">
-                <i class="fas fa-magic"></i> GENERATE MODUL AJAR (FORMAT SIMETRIS)
-            </button>
+        <button id="generateBtn" onclick="runGenerator()" class="w-full bg-blue-700 hover:bg-blue-800 text-white font-extrabold py-4 rounded-xl shadow-lg transition-all flex justify-center items-center gap-3">
+          <i class="fas fa-magic"></i> GENERATE MODUL AJAR (FORMAT SIMETRIS)
+        </button>
+      </div>
+      <div id="resultArea" class="hidden mt-6">
+        <div class="no-print flex justify-between mb-4">
+          <button onclick="backToEdit()" class="bg-white border px-4 py-2 rounded-lg font-bold text-slate-600 hover:bg-slate-50 transition"><i class="fas fa-edit mr-2"></i> KEMBALI</button>
+          <button onclick="window.print()" class="bg-blue-600 text-white px-6 py-2 rounded-lg font-bold shadow-lg hover:bg-blue-700 transition"><i class="fas fa-print mr-2"></i> CETAK MODUL</button>
         </div>
-
-        <div id="resultArea" class="hidden mt-6">
-            <div class="no-print flex justify-between mb-4">
-                <button onclick="backToEdit()" class="bg-white border px-4 py-2 rounded-lg font-bold text-slate-600 hover:bg-slate-50 transition"><i class="fas fa-edit mr-2"></i> KEMBALI</button>
-                <button onclick="window.print()" class="bg-blue-600 text-white px-6 py-2 rounded-lg font-bold shadow-lg hover:bg-blue-700 transition"><i class="fas fa-print mr-2"></i> CETAK MODUL</button>
-            </div>
-            <div id="rppOutput" class="p-8 md:p-12 border shadow-2xl min-h-screen"></div>
-        </div>
-
-        <div id="loader" class="hidden fixed inset-0 bg-white/95 z-50 flex flex-col items-center justify-center text-center">
-            <div class="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-            <p id="loaderText" class="mt-4 font-black text-blue-900 px-4 text-lg">Membangun Modul Ajar Simetris...</p>
-        </div>
+        <div id="rppOutput" class="p-8 md:p-12 border shadow-2xl min-h-screen"></div>
+      </div>
+      <div id="loader" class="hidden fixed inset-0 bg-white/95 z-50 flex flex-col items-center justify-center text-center">
+        <div class="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+        <p id="loaderText" class="mt-4 font-black text-blue-900 px-4 text-lg">Membangun Modul Ajar Simetris...</p>
+      </div>
     </div>
-
     <script>
-        // Fungsi pembantu untuk retry dengan exponential backoff yang lebih kuat
-        async function fetchWithRetry(url, options, maxRetries = 5) {
-            let lastError;
-            for (let i = 0; i < maxRetries; i++) {
-                try {
-                    const response = await fetch(url, options);
-                    
-                    if (response.ok) {
-                        return await response.json();
-                    }
-                    
-                    const errorText = await response.text();
-                    console.error(`Attempt ${i+1} failed with status: ${response.status}`, errorText);
-                    
-                    // Jika error 401 (API Key salah) jangan retry
-                    if (response.status === 401 || response.status === 403) {
-                        throw new Error("API Key tidak valid atau tidak diizinkan.");
-                    }
+      async function fetchWithRetry(url, options, maxRetries = 5) {
+        let lastError;
+        for (let i = 0; i < maxRetries; i++) {
+          try {
+            const response = await fetch(url, options);
+            if (response.ok) return await response.json();
+            const errorText = await response.text();
+            if (response.status === 401 || response.status === 403) throw new Error("API Key tidak valid.");
+          } catch (e) {
+            lastError = e;
+          }
+          await new Promise((res) => setTimeout(res, Math.pow(2, i) * 1000));
+        }
+        throw lastError || new Error("Gagal menghubungi server.");
+      }
 
-                    // Hanya retry jika error jaringan (429/5xx)
-                    if (response.status !== 429 && response.status < 500) {
-                        throw new Error(`Server menolak permintaan (Status: ${response.status})`);
-                    }
+      function cleanAiOutput(html) {
+        const patterns = [/Mengetahui,[\s\S]*?NIP\.\s?\d+/gi, /Guru Mata Pelajaran[\s\S]*?NIP\.\s?\d+/gi, /Kepala SMPN[\s\S]*?NIP\.\s?\d+/gi, /Hormat Kami,[\s\S]*?NIP\.\s?\d+/gi, /Manonjaya,[\s\S]*?\d{4}/gi];
+        let cleaned = html;
+        patterns.forEach((p) => (cleaned = cleaned.replace(p, "")));
+        return cleaned;
+      }
 
-                } catch (e) {
-                    lastError = e;
-                    console.warn(`Retry attempt ${i+1} due to error:`, e.message);
-                }
-                
-                // Jeda progresif: 1s, 2s, 4s, 8s, 16s
-                await new Promise(res => setTimeout(res, Math.pow(2, i) * 1000));
-            }
-            throw lastError || new Error("Gagal menghubungi server setelah beberapa kali mencoba.");
+      async function runGenerator() {
+        const key = document.getElementById("apiKey").value.trim();
+        if (!key) {
+          alert("Harap masukkan API Key Gemini!");
+          return;
         }
 
-        async function runGenerator() {
-            const key = document.getElementById('apiKey').value.trim();
-            if(!key) { 
-                alert("Harap masukkan API Key Gemini terlebih dahulu!"); 
-                return; 
+        const selectedP3 = Array.from(document.querySelectorAll('input[name="p3"]:checked')).map((cb) => cb.value);
+        const p = {
+          sekolah: document.getElementById("sekolah").value,
+          tahun: document.getElementById("tahun").value,
+          semester: document.getElementById("semester").value,
+          guru: document.getElementById("guru").value,
+          nipGuru: document.getElementById("nipGuru").value,
+          kepala: document.getElementById("kepala").value,
+          nipKepala: document.getElementById("nipKepala").value,
+          mapel: document.getElementById("mapel").value,
+          materi: document.getElementById("materi").value,
+          kelas: document.getElementById("kelas").value,
+          alokasi: document.getElementById("alokasi").value,
+          model: document.getElementById("model").value,
+          cp: document.getElementById("cp").value,
+          tp: document.getElementById("tp").value,
+          p3: selectedP3.join(", "),
+          lkpd: document.getElementById("genLKPD").checked,
+        };
+
+        const loader = document.getElementById("loader");
+        loader.classList.remove("hidden");
+
+        const systemPrompt = `Anda adalah pakar kurikulum Merdeka SMP. Generate konten HTML Modul Ajar Deep Learning dengan tabel simetris. 
+        PENTING: 
+        1. JANGAN PERNAH menulis bagian tanda tangan (Mengetahui, Kepala, Guru, NIP) di akhir teks. 
+        2. Cukup letakkan tag [MODUL_SIG] tepat setelah isi Modul Ajar selesai.
+        3. Jika ada LKPD, JANGAN berikan tanda tangan apapun di akhirnya. Letakkan LKPD langsung di bawah Modul Ajar.`;
+
+        try {
+          const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${key}`;
+          const data = await fetchWithRetry(apiUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              contents: [{ parts: [{ text: `Buat Modul Ajar Simetris dan LKPD untuk: ${JSON.stringify(p)}` }] }],
+              systemInstruction: { parts: [{ text: systemPrompt }] },
+            }),
+          });
+
+          let aiHtml = data.candidates?.[0]?.content?.parts?.[0]?.text || "";
+          aiHtml = aiHtml
+            .replace(/```html/gi, "")
+            .replace(/```/gi, "")
+            .trim();
+
+          const today = new Date();
+          const months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+          const dateStr = `${today.getDate()} ${months[today.getMonth()]} ${today.getFullYear()}`;
+
+          const sigArea = `
+            <div class="sig-container">
+              <table class="sig-table">
+                <tr>
+                  <td>
+                    <p>Mengetahui,</p>
+                    <p>Kepala ${p.sekolah}</p>
+                    <br><br><br>
+                    <p><strong><u>${p.kepala}</u></strong></p>
+                    <p>NIP. ${p.nipKepala}</p>
+                  </td>
+                  <td>
+                    <p>Manonjaya, ${dateStr}</p>
+                    <p>Guru Mata Pelajaran,</p>
+                    <br><br><br>
+                    <p><strong><u>${p.guru}</u></strong></p>
+                    <p>NIP. ${p.nipGuru}</p>
+                  </td>
+                </tr>
+              </table>
+            </div>`;
+
+          const docHeader = `
+            <div style="text-align:center; margin-bottom:15px;">
+              <h1 style="font-size:16pt; margin:0; line-height: 1.2;">MODUL AJAR KURIKULUM MERDEKA (DEEP LEARNING)</h1>
+              <h2 style="font-size:14pt; margin:0; line-height: 1.2;">${p.sekolah.toUpperCase()}</h2>
+            </div>
+            <table border="1" style="width:100% !important;">
+              <tr><td width="20%" class="section-bg">Sekolah</td><td>${p.sekolah}</td><td width="20%" class="section-bg">Mapel</td><td>${p.mapel}</td></tr>
+              <tr><td class="section-bg">Guru</td><td>${p.guru}</td><td class="section-bg">NIP</td><td>${p.nipGuru}</td></tr>
+              <tr><td class="section-bg">Kelas</td><td>${p.kelas}</td><td class="section-bg">Waktu</td><td>${p.alokasi}</td></tr>
+              <tr><td class="section-bg">Materi</td><td colspan="3"><strong>${p.materi}</strong></td></tr>
+            </table>`;
+
+          let processedHtml = cleanAiOutput(aiHtml);
+
+          if (processedHtml.includes("[MODUL_SIG]")) {
+            processedHtml = processedHtml.replace("[MODUL_SIG]", sigArea);
+          } else {
+            if (processedHtml.toLowerCase().includes("lembar kerja peserta didik") || processedHtml.toLowerCase().includes("lkpd")) {
+              const parts = processedHtml.split(/(lembar kerja peserta didik|lkpd)/i);
+              processedHtml = parts[0] + sigArea + parts.slice(1).join("");
+            } else {
+              processedHtml += sigArea;
             }
+          }
 
-            const selectedP3 = Array.from(document.querySelectorAll('input[name="p3"]:checked')).map(cb => cb.value);
-            const p = {
-                sekolah: document.getElementById('sekolah').value,
-                tahun: document.getElementById('tahun').value,
-                semester: document.getElementById('semester').value,
-                guru: document.getElementById('guru').value,
-                nipGuru: document.getElementById('nipGuru').value,
-                kepala: document.getElementById('kepala').value,
-                nipKepala: document.getElementById('nipKepala').value,
-                mapel: document.getElementById('mapel').value,
-                materi: document.getElementById('materi').value,
-                kelas: document.getElementById('kelas').value,
-                alokasi: document.getElementById('alokasi').value,
-                model: document.getElementById('model').value,
-                cp: document.getElementById('cp').value,
-                tp: document.getElementById('tp').value,
-                p3: selectedP3.join(', '),
-                lkpd: document.getElementById('genLKPD').checked
-            };
+          processedHtml = processedHtml.replace(/\[LKPD_SIG\]/gi, "");
 
-            const loader = document.getElementById('loader');
-            const loaderText = document.getElementById('loaderText');
-            loader.classList.remove('hidden');
-            loaderText.innerText = "Sedang menghubungi AI (Gemini 2.5 Flash)...";
+          document.getElementById("rppOutput").innerHTML = docHeader + processedHtml;
 
-            const systemPrompt = `Anda adalah pakar kurikulum Merdeka SMP. Generate konten HTML Modul Ajar Deep Learning dengan tabel simetris.
-            Gunakan panduan ini:
-            - Tanpa tag <html>/<body>/head.
-            - Bagian A: Tabel 2 kolom Tujuan & P3.
-            - Bagian B: Sarana.
-            - Bagian C: Tabel Langkah-langkah (Sintaks 20%, Aktivitas 68%, Waktu 12%).
-            - Bagian D: Asesmen.
-            - Sisipkan "[MODUL_SIG]" setelah Bagian D.
-            - Jika ada LKPD, sisipkan "[LKPD_SIG]" di akhir LKPD.
-            - Gunakan tabel border="1" style="width:100%; border-collapse:collapse;".`;
+          if (window.MathJax) await window.MathJax.typesetPromise([document.getElementById("rppOutput")]);
 
-            try {
-                // Gunakan URL yang paling stabil sesuai instruksi teknis
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${key}`;
-                
-                const data = await fetchWithRetry(apiUrl, {
-                    method: 'POST',
-                    headers: { 
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: `Buat Modul Ajar Simetris dan LKPD mendalam untuk: ${JSON.stringify(p)}` }] }],
-                        systemInstruction: { parts: [{ text: systemPrompt }] }
-                    })
-                });
-
-                let aiHtml = data.candidates?.[0]?.content?.parts?.[0]?.text || "";
-                
-                // Regex pembersihan yang lebih agresif untuk markdown
-                aiHtml = aiHtml.replace(/```html/gi, "").replace(/```/gi, "").trim();
-
-                if (!aiHtml || aiHtml.length < 100) {
-                    throw new Error("Respon dari AI terlalu pendek atau kosong. Silakan coba lagi.");
-                }
-
-                const sigArea = `
-                    <div class="sig-container">
-                        <table class="sig-table" border="0">
-                            <tr>
-                                <td>
-                                    <p>Mengetahui,</p>
-                                    <p>Kepala ${p.sekolah}</p>
-                                    <br><br><br>
-                                    <p><strong><u>${p.kepala}</u></strong></p>
-                                    <p>NIP. ${p.nipKepala}</p>
-                                </td>
-                                <td>
-                                    <p>Manonjaya, .......................... 2026</p>
-                                    <p>Guru Mata Pelajaran,</p>
-                                    <br><br><br>
-                                    <p><strong><u>${p.guru}</u></strong></p>
-                                    <p>NIP. ${p.nipGuru}</p>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                `;
-
-                const docHeader = `
-                    <div style="text-align:center; margin-bottom:15px;">
-                        <h1 style="font-size:16pt; margin:0;">MODUL AJAR KURIKULUM MERDEKA (DEEP LEARNING)</h1>
-                        <h2 style="font-size:14pt; margin:0;">${p.sekolah.toUpperCase()}</h2>
-                        <p style="margin:5px 0;">Tahun Pelajaran: ${p.tahun} | Semester: ${p.semester}</p>
-                    </div>
-                    <table border="1" style="width:100%; border-collapse:collapse; margin-bottom:20px;">
-                        <tr><td width="20%" class="section-bg">Sekolah</td><td>${p.sekolah}</td><td width="20%" class="section-bg">Mapel</td><td>${p.mapel}</td></tr>
-                        <tr><td class="section-bg">Guru</td><td>${p.guru}</td><td class="section-bg">NIP</td><td>${p.nipGuru}</td></tr>
-                        <tr><td class="section-bg">Kelas</td><td>${p.kelas}</td><td class="section-bg">Waktu</td><td>${p.alokasi}</td></tr>
-                        <tr><td class="section-bg">Materi</td><td colspan="3"><strong>${p.materi}</strong></td></tr>
-                    </table>
-                `;
-
-                let processedHtml = aiHtml;
-                
-                // Pastikan tanda tangan masuk dengan benar
-                if (processedHtml.includes("[MODUL_SIG]")) {
-                    processedHtml = processedHtml.replace("[MODUL_SIG]", sigArea);
-                } else {
-                    // Cari bagian Asesmen atau akhir tabel untuk menyisipkan tanda tangan modul
-                    processedHtml = processedHtml.replace(/(<\/table>)(?!.*<\/table>)/i, "$1" + sigArea);
-                }
-
-                if (processedHtml.includes("[LKPD_SIG]")) {
-                    processedHtml = processedHtml.replace("[LKPD_SIG]", sigArea);
-                } else if (p.lkpd && !processedHtml.includes("Guru Mata Pelajaran")) {
-                    processedHtml += sigArea;
-                }
-
-                document.getElementById('rppOutput').innerHTML = docHeader + processedHtml;
-                
-                // Tunggu render MathJax selesai
-                if(window.MathJax && window.MathJax.typesetPromise) {
-                    await window.MathJax.typesetPromise([document.getElementById('rppOutput')]);
-                }
-
-                document.getElementById('inputForm').classList.add('hidden');
-                document.getElementById('resultArea').classList.remove('hidden');
-                window.scrollTo(0,0);
-
-            } catch (err) {
-                console.error("Critical Error:", err);
-                alert("Gagal Generate!\n\nPesan Error: " + err.message + "\n\nSaran: Periksa API Key Anda, pastikan koneksi internet stabil, atau coba lagi dalam beberapa saat.");
-            } finally {
-                loader.classList.add('hidden');
-            }
+          document.getElementById("inputForm").classList.add("hidden");
+          document.getElementById("resultArea").classList.remove("hidden");
+          window.scrollTo(0, 0);
+        } catch (err) {
+          alert("Gagal: " + err.message);
+        } finally {
+          loader.classList.add("hidden");
         }
+      }
 
-        function backToEdit() {
-            document.getElementById('resultArea').classList.add('hidden');
-            document.getElementById('inputForm').classList.remove('hidden');
-        }
+      function backToEdit() {
+        document.getElementById("resultArea").classList.add("hidden");
+        document.getElementById("inputForm").classList.remove("hidden");
+      }
     </script>
-</body>
+  </body>
 </html>
